@@ -54,6 +54,7 @@ private:
     juce::LinearSmoothedValue<int> smoothedRepeats;
     
     juce::AudioBuffer<float> circularBuffer;
+    juce::AudioBuffer<float>* memory_loopBuffer;
     
     //play head
     int writehead = 0;

@@ -32,11 +32,17 @@ void pseudoTS::processBlock(juce::AudioBuffer<float>& inBuffer){
     
     int splits = smoothedSplits.getNextValue();
     
+    // this needs to be changed of course. it should be a variable.
+    int repeats = smoothedRepeats.getNextValue();
+    
     int smoothed_window_size = maxWindowSize * smoothedTime.getNextValue();
     
     // creating dynamic array that updates everysample
     // could use a vector here but i feel like doing the memory manually is much safer for audio.
     int* splitArray = new int[splits];
+    //
+    // this assigns our size for the loop of buffer reallocation.
+    memory_loopBuffer = new juce::AudioBuffer<float>[repeats + 1];
     
     fillArray(splits, smoothed_window_size, splitArray);
     //
@@ -116,6 +122,7 @@ void pseudoTS::processBlock(juce::AudioBuffer<float>& inBuffer){
         }
     }
     delete[] splitArray;
+    delete[] memory_loopBuffer;
 }
 
 void pseudoTS::setParameters(float inTimePercent, float inDryWetPercent, int inSplits, int inRepeats){
